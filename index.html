@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>cglearn Documentation</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+      }
+
+      h1 {
+        margin-top: 0;
+      }
+
+      main {
+        background-color: #f1f1f1;
+        margin-top: 80px;
+        overflow-y: auto;
+      }
+
+      nav {
+        width: 20%;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 100px;
+        bottom: 0;
+        overflow-y: auto;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      a {
+        color: #333;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      a:hover {
+        color: #666;
+      }
+
+      section {
+        padding: 20px;
+      }
+
+      section h1 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      section:not(:last-child) {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+
+      #content {
+        margin-left: 22%;
+      }
+
+      p {
+        margin: 0 0;
+        padding: 10px;
+      }
+
+      pre {
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        overflow-x: auto;
+      }
+
+      .arg_name {
+        color: darkgreen;
+      }
+
+      .arguments-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-left: 5px;
+      }
+
+      .arguments-table th,
+      .arguments-table td {
+        border: 1px solid #ccc;
+        padding: 5px;
+      }
+
+      .arguments-table th {
+        background-color: #f1f1f1;
+        font-weight: bold;
+        text-align: left;
+        border: none;
+      }
+
+      .arguments-table td {
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Library Documentation</h1>
+    </header>
+
+    <main>
+      <nav>
+        <h2>Library Functions</h2>
+        <ul>
+          <li><a href="#comp_pat">comp_pat</a></li>
+          <li><a href="#comp_skel">comp_skel</a></li>
+          <li><a href="#ischaingraph">ischaingraph</a></li>
+          <li><a href="#moralize">moralize</a></li>
+          <li><a href="#skeleton">skeleton</a></li>
+          <!-- Add more function links here -->
+        </ul>
+      </nav>
+
+      <section id="content">
+        <section id="comp_pat_py">
+          <h1 class="functionName">comp_pat</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Compares a (learned) chain graph pattern to the (supposed) true
+            pattern. The two patterns should have the same vertex set in order
+            for the function to return a meaningful result.
+          </p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">comp_pat(truepat, pat)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>truepat</td>
+              <td>the adjacency matrix of the true pattern.</td>
+            </tr>
+            <tr>
+              <td>pat</td>
+              <td>
+                the adjacency matrix of the pattern to be compared with the true
+                one.
+              </td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function simply compares two np.arrays and finds the differences
+            in provided patterns. It also computers error measures(TPR, FPR,
+            ACC, etc)
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>trueArrows</td>
+              <td>Number of true arrows</td>
+            </tr>
+            <tr>
+              <td>missingArrows</td>
+              <td>Number of missing arrows in the learned pattern</td>
+            </tr>
+            <tr>
+              <td>extraArrows</td>
+              <td>Number of extra arrows in the learned pattern</td>
+            </tr>
+            <tr>
+              <td>shd</td>
+              <td>Structural Hamming Distance</td>
+            </tr>
+            <tr>
+              <td>tpr</td>
+              <td>TPR</td>
+            </tr>
+            <tr>
+              <td>tdr</td>
+              <td>TDR</td>
+            </tr>
+            <tr>
+              <td>fpr</td>
+              <td>FPR</td>
+            </tr>
+            <tr>
+              <td>acc</td>
+              <td>Accuracy</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[1, 1, 1],[0, 0, 0],[0, 0, 0]])
+matrix2 = np.array([[0, 0, 0],[0, 0, 0],[1, 1, 1]])
+comp_pat(matrix1, matrix2)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Tsamardinos, I., Brown, L., and Aliferis, C. (2006). The max-min
+            hill-climbing Bayesian network structure learning algorithm. Mach.
+            Learn., 65(1):31-78.
+          </p>
+        </section>
+      </section>
+
+      <!-- Add more sections for additional functions -->
+    </main>
+  </body>
+</html>
