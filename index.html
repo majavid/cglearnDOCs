@@ -135,15 +135,20 @@
         <ul>
           <li><a href="#comp_pat">comp_pat</a></li>
           <li><a href="#comp_skel">comp_skel</a></li>
-          <li><a href="#ischaingraph">ischaingraph</a></li>
-          <li><a href="#moralize">moralize</a></li>
+          <li><a href="#ischaingraph">is_chain_graph</a></li>
+          <li><a href="#moralize">get_moralize_matrix</a></li>
           <li><a href="#skeleton">skeleton</a></li>
+          <li><a href="#isseparated">is_separated</a></li>
+          <li><a href="#istriangulated">is_triangulated</a></li>
+          <li><a href="#triangulate">triangulate</a></li>
+          <li><a href="#ugtojtree">ug_to_jtree</a></li>
+          <li><a href="#septree">SepTree</a></li>
           <!-- Add more function links here -->
         </ul>
       </nav>
 
       <section id="content">
-        <section id="comp_pat_py">
+        <section id="comp_pat">
           <h1 class="functionName">comp_pat</h1>
 
           <p class="desc_header"><strong>Description:</strong></p>
@@ -214,7 +219,7 @@
             class="example_content"
           ><code>matrix1 = np.array([[1, 1, 1],[0, 0, 0],[0, 0, 0]])
 matrix2 = np.array([[0, 0, 0],[0, 0, 0],[1, 1, 1]])
-comp_pat(matrix1, matrix2)
+resultDict = comp_pat(matrix1, matrix2)
           </code></pre>
           <p class="author_header"><strong>Author(s):</strong></p>
           <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
@@ -223,6 +228,496 @@ comp_pat(matrix1, matrix2)
             Tsamardinos, I., Brown, L., and Aliferis, C. (2006). The max-min
             hill-climbing Bayesian network structure learning algorithm. Mach.
             Learn., 65(1):31-78.
+          </p>
+        </section>
+
+        <section id="comp_skel">
+          <h1 class="functionName">comp_skel</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Compares a (learned) chain graph skeleton to the (supposed) true
+            skeleton. The two patterns should have the same vertex set in order
+            for the function to return a meaningful result.
+          </p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">comp_skel(trueskel, skel)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>trueskel</td>
+              <td>the adjacency matrix of the true skeleton.</td>
+            </tr>
+            <tr>
+              <td>skel</td>
+              <td>
+                the adjacency matrix of the skeleton to be compared with the
+                true one.
+              </td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function simply compares two np.arrays and finds the differences
+            in provided skeletons. It also computers error measures(TPR, FPR,
+            ACC, etc)
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>numTrueEdges</td>
+              <td>Number of true edges</td>
+            </tr>
+            <tr>
+              <td>missingEdges</td>
+              <td>Number of missing edges in the learned skeleton</td>
+            </tr>
+            <tr>
+              <td>extraEdges</td>
+              <td>Number of extra edges in the learned skeleton</td>
+            </tr>
+            <tr>
+              <td>shd</td>
+              <td>Structural Hamming Distance</td>
+            </tr>
+            <tr>
+              <td>tpr</td>
+              <td>TPR</td>
+            </tr>
+            <tr>
+              <td>tdr</td>
+              <td>TDR</td>
+            </tr>
+            <tr>
+              <td>fpr</td>
+              <td>FPR</td>
+            </tr>
+            <tr>
+              <td>acc</td>
+              <td>Accuracy</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+matrix2 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+resultDict = comp_skeleton(matrix1, matrix2)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Tsamardinos, I., Brown, L., and Aliferis, C. (2006). The max-min
+            hill-climbing Bayesian network structure learning algorithm. Mach.
+            Learn., 65(1):31-78.
+          </p>
+        </section>
+
+        <section id="ischaingraph">
+          <h1 class="functionName">is_chain_graph</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">Checks if a given graph is a chain graph.</p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">is_chain_graph(adj_matrix)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the graph.</td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function tries to find a partially directed cycle. If found, it
+            is not a chain graph
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>Result</td>
+              <td>True/False</td>
+            </tr>
+            <tr>
+              <td>cycle_path</td>
+              <td>If there is a cycle, it is returned as a list of vertices</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+result,cycle = is_chain_graph(matrix1)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Cowell, R. G., Dawid, A. P., Lauritzen, S. L. and Spiegelhalter, D.
+            J. (1999) Probabilistic Networks and Expert Systems.
+            Springer-Verlag, New York.
+          </p>
+        </section>
+
+        <section id="moralize">
+          <h1 class="functionName">get_moralize_matrix</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Converts chain graph into its moralized graph
+          </p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">get_moralize_matrix(adj_matrix)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the chain graph.</td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function joins all complex spouse with undirected edge and then
+            converts all arrows into lines
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>Result</td>
+              <td>adjacency matrix of the moral graph</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+result = get_moralize_matrix(matrix1)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Lauritzen, S. L. (1996). Graphical Models. Clarendon Press, Oxford.
+          </p>
+        </section>
+
+        <section id="skeleton">
+          <h1 class="functionName">skeleton</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">Returns skeleton of a graph</p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">skeleton(adj_matrix)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the graph.</td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function converts all arrows into lines
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>Result</td>
+              <td>adjacency matrix of the skeleton</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+result = skeleton(matrix1)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content"></p>
+        </section>
+
+        <section id="isseparated">
+          <h1 class="functionName">is_separated</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">Returns skeleton of a graph</p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">
+            is_separated(setA, setB, setSeparator, adj_matrix)
+          </p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>setA</td>
+              <td>first set of vertices</td>
+            </tr>
+            <tr>
+              <td>setB</td>
+              <td>sevond set of vertices</td>
+            </tr>
+            <tr>
+              <td>setSeparator</td>
+              <td>
+                set of vertices that based on which we want to check
+                C-separation of setA and setB
+              </td>
+            </tr>
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the graph.</td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function checks if vertices from set A are C-separated from
+            vertcies from setB given a set, setSeparator(can be empty)
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>Result</td>
+              <td>True/False</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+result = is_separated({0}, {1}, {2}, matrix1)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Lauritzen, S. L. (1996). Graphical Models. Clarendon Press, Oxford.
+            Studeny, M. and Bouckaert, R. R. (1998). On chain graph models for
+            description of conditional independence structures. Annals of
+            Statistics 26 1434-1495.
+          </p>
+        </section>
+
+        <section id="istriangulated">
+          <h1 class="functionName">is_triangulated</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Performs a maximum cardinality search on an undirected graph to
+            determine whether it is triangulated.
+          </p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">is_triangulated(adj_matrix)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the undirected graph.</td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function checks if given undirected matrix is triangulated or
+            not and also returns the perfect numbering of vertices based on
+            simple linear-time algorithms to test chordality of graphs given by
+            Tarjan, R. E. and Yannakakis. See referecnce for details
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>is.triangulated</td>
+              <td>
+                True/False - a logical value indicating whether the input graph
+                is triangulated or not.
+              </td>
+            </tr>
+            <tr>
+              <td>perfect.numbering</td>
+              <td>a perfect numbering of the vertices.</td>
+            </tr>
+            <tr>
+              <td>card</td>
+              <td>
+                number of unlabeled neighbors when labeling each variable, with
+                order compatible to the perfect numbering.
+              </td>
+            </tr>
+            <tr>
+              <td>pi.record</td>
+              <td>
+                a record of unlabeled neighbors during the execution of the
+                algorithm.
+              </td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+resultDict = is_triangulated(matrix1)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Tarjan, R. E. and Yannakakis, M. (1984). Simple linear-time
+            algorithms to test chordality of graphs, test acyclicity of
+            hypergraphs, and selectively reduce acyclic hypergraphs. SIAM
+            Journal on Computing, 13, 566-79.
+          </p>
+        </section>
+
+        <section id="triangulate">
+          <h1 class="functionName">triangulate</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Triangulates an undirected graph to a chordal graph.
+          </p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">triangulate(adj_matrix)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the undirected graph.</td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            This function coverts a graph into triangulated graph. For this
+            purpose it use One Step Look Ahead Triangulation algorithm (see
+            references)
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the triangulated graph.</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+result = triangulate(matrix1)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Cowell, R. G., Dawid, A. P., Lauritzen, S. L. and Spiegelhalter, D.
+            J. (1999) Probabilistic Networks and Expert Systems.
+            Springer-Verlag, New York.
+          </p>
+        </section>
+
+        <section id="ugtojtree">
+          <h1 class="functionName">ug_to_jtree</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Constructs a junction tree for an undirected graph.
+          </p>
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">ug_to_jtree(adj_matrix)</p>
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adj_matrix</td>
+              <td>the adjacency matrix of the undirected graph.</td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            This function and its helpers implement the junction tree
+            construction algorithm described in detail in Section 4.3 and 4.4 of
+            Cowell, et al (1999).
+          </p>
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>result</td>
+              <td>An object of class SepTree</td>
+            </tr>
+          </table>
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+result = ug_to_jtree(matrix1)
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Cowell, R. G., Dawid, A. P., Lauritzen, S. L. and Spiegelhalter, D.
+            J. (1999) Probabilistic Networks and Expert Systems.
+            Springer-Verlag, New York.
+          </p>
+        </section>
+
+        <section id="septree">
+          <h1 class="functionName">SepTree</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Objects representing separation tree as described in Xie, Geng and
+            Zhao (2006) and Ma, Xie and Geng (2008), which includes junction
+            tree of cliques as a special case.
+          </p>
+          <!-- <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">ug_to_jtree(adj_matrix)</p> -->
+          <p class="args_header"><strong>Data members:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>tree_struct</td>
+              <td>the adjacency matrix of the junction tree.</td>
+            </tr>
+            <tr>
+              <td>cliques</td>
+              <td>the list of cliques on the junction tree.</td>
+            </tr>
+            <tr>
+              <td>separators</td>
+              <td>
+                the list of separators on the junction tree, each element on the
+                list has two components: the separator compoenent is the set of
+                graph vertices in the separator and edge is the edge on the tree
+                that the separator is attahced to
+              </td>
+            </tr>
+          </table>
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            This function and its helpers implement the junction tree
+            construction algorithm described in detail in Section 4.3 and 4.4 of
+            Cowell, et al (1999).
+          </p>
+          <!-- <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>result</td>
+              <td>An object of class SepTree</td>
+            </tr>
+          </table> -->
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>matrix1 = np.array([[0, 1, 1],[1, 0, 1],[0, 1, 1]])
+result = ug_to_jtree(matrix1)
+# result will be an object of SepTree
+          </code></pre>
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Ma, Z., Xie, X. and Geng, Z. (2008). Structural learning of chain
+            graphs via decomposition. J. Mach. Learn. Res., 9, 2847-2880. Xie,
+            X., Geng, Z. and Zhao, Q. (2006). Decomposition of structural
+            learning about directed acyclic graphs. Artif. Intell., 170,
+            422-439.
           </p>
         </section>
       </section>
