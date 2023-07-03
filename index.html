@@ -142,7 +142,12 @@
           <li><a href="#istriangulated">is_triangulated</a></li>
           <li><a href="#triangulate">triangulate</a></li>
           <li><a href="#ugtojtree">ug_to_jtree</a></li>
-          <li><a href="#septree">SepTree</a></li>
+          <li><a href="#get_uig_norm">get_uig_norm</a></li>
+          <li><a href="#gaussCItest">gaussCItest</a></li>
+          <li><a href="#gaussian_pc_learn">gaussian_pc_learn</a></li>
+          <li><a href="#learn_skeleton_norm">learn_skeleton_norm</a></li>
+          <li><a href="#gaussian_skeleton_mkb">gaussian_skeleton_mkb</a></li>
+          <li><a href="#get_pattern_matrix">get_pattern_matrix</a></li>
           <!-- Add more function links here -->
         </ul>
       </nav>
@@ -718,6 +723,428 @@ result = ug_to_jtree(matrix1)
             X., Geng, Z. and Zhao, Q. (2006). Decomposition of structural
             learning about directed acyclic graphs. Artif. Intell., 170,
             422-439.
+          </p>
+        </section>
+
+        <section id="get_uig_norm">
+          <h1 class="functionName">get_uig_norm</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Learns an undirected independence graph from a given data set. The
+            data are assumed to be normally distributed.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">get_uig_norm(data, p_value)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>data</td>
+              <td>
+                The data matrix with rows corresponding to observations and
+                columns corresponding to random variables.
+              </td>
+            </tr>
+            <tr>
+              <td>p_value</td>
+              <td>
+                The thresholding p-value for each conditional independence test.
+              </td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function learns an undirected independence graph by computing
+            the partial correlations between variables based on the provided
+            data matrix. It uses a thresholding p-value to determine the
+            existence of edges in the graph.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <p class="value_content">
+            The function returns the adjacency matrix of the learned undirected
+            independence graph.
+          </p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>data = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])
+p_value = 0.05
+adj_matrix = get_uig_norm(data, p_value)</code></pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Lauritzen, S. L. (1996). Graphical Models. Clarendon Press, Oxford.
+          </p>
+        </section>
+
+        <section id="gaussCItest">
+          <h1 class="functionName">gaussCItest</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Performs the Gaussian conditional independence test between two
+            variables with a set of conditioning variables.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">gaussCItest(x, y, S, stuffStat)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>x, y</td>
+              <td>Indices of the variables for which to perform the test.</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>Set of conditioning variables.</td>
+            </tr>
+            <tr>
+              <td>stuffStat</td>
+              <td>Dictionary containing relevant statistical information.</td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function performs a Gaussian conditional independence test
+            between variables `x` and `y`, given a set of conditioning variables
+            `S`. It calculates the test statistic `z` based on the statistical
+            information provided in the `stuffStat` dictionary. It then computes
+            the p-value for the test
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <p class="value_content">
+            The function returns the p-value of the Gaussian conditional
+            independence test.
+          </p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre class="example_content"><code>x = 0
+y = 1
+S = [2, 3]
+stuffStat = {'C': [0.2, 0.3, 0.5, 0.1], 'n': 100}
+p_value = gaussCItest(x, y, S, stuffStat)</code></pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Whittaker, J. (1990). Graphical Models in Applied Mathematical
+            Multivariate Statistics. John Wiley and Sons, Chichester, England.
+          </p>
+        </section>
+
+        <section id="gaussian_pc_learn">
+          <h1 class="functionName">gaussian_pc_learn</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Learns the structure of a directed acyclic graph (DAG) using the PC
+            algorithm for Gaussian data.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">
+            gaussian_pc_learn(cov, n, p_value, vertexNames=[])
+          </p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>cov</td>
+              <td>The covariance matrix of the data.</td>
+            </tr>
+            <tr>
+              <td>n</td>
+              <td>The number of observations in the data.</td>
+            </tr>
+            <tr>
+              <td>p_value</td>
+              <td>The threshold p-value for conditional independence tests.</td>
+            </tr>
+            <tr>
+              <td>vertexNames</td>
+              <td>(Optional) List of names for each vertex in the graph.</td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function implements the PC algorithm for learning the structure
+            of a directed acyclic graph (DAG) from Gaussian data. It starts with
+            a complete undirected graph and iteratively removes edges based on
+            conditional independence tests. The algorithm considers zero-order,
+            first-order, second-order, and so on conditional independence
+            relations to thin the graph. The resulting graph represents the
+            learned DAG structure.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>amat</td>
+              <td>The adjacency matrix of the learned DAG.</td>
+            </tr>
+            <tr>
+              <td>sep_pairs</td>
+              <td>
+                A list of separation pairs representing d-separation
+                relationships in the learned DAG. Each separation pair contains
+                the vertices and separation set for d-separation.
+              </td>
+            </tr>
+          </table>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>cov_matrix = np.array([[1, 0.5, 0], [0.5, 1, 0], [0, 0, 1]])
+n_observations = 1000
+p_value_threshold = 0.05
+vertex_names = ['A', 'B', 'C']
+result = gaussian_pc_learn(cov_matrix, n_observations, p_value_threshold, vertex_names)</code></pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Mohammad Ali Javidian, Marco Valtorta, and Pooyan Jamshidi. "An
+            Order-Independent Algorithm for Learning Chain Graphs" Proceedings
+            of the 34th International Florida Artificial Intelligence Research
+            Society Conference (FLAIRS-34), 2021
+          </p>
+        </section>
+
+        <section id="learn_skeleton_norm">
+          <h1 class="functionName">learn_skeleton_norm</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Learns the skeleton of a graphical model using the PC algorithm for
+            Gaussian data.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">
+            learn_skeleton_norm(tree: SepTree, cov, n, p_value, drop=True)
+          </p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>tree</td>
+              <td>
+                A SepTree object representing the tree structure of the
+                graphical model.
+              </td>
+            </tr>
+            <tr>
+              <td>cov</td>
+              <td>The covariance matrix of the data.</td>
+            </tr>
+            <tr>
+              <td>n</td>
+              <td>An integer specifying the sample size.</td>
+            </tr>
+            <tr>
+              <td>p_value</td>
+              <td>A significance level used in statistical tests.</td>
+            </tr>
+            <tr>
+              <td>drop</td>
+              <td>
+                (Optional) A boolean indicating whether to drop edges or not
+                (default is True).
+              </td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function implements the PC algorithm for learning the skeleton
+            of a graphical model from Gaussian data. It starts with a given
+            SepTree object representing the tree structure of the graphical
+            model. The function then learns local undirected graphs within each
+            clique of the tree, and then removes edges based on conditional
+            independence tests using the PC algorithm. The resulting graph
+            represents the skeleton of the graphical model.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>amat</td>
+              <td>The adjacency matrix of the learned skeleton.</td>
+            </tr>
+            <tr>
+              <td>sep_pairs</td>
+              <td>
+                A list of separation pairs representing d-separation
+                relationships in the learned skeleton. Each separation pair
+                contains the vertices and separation set for d-separation.
+              </td>
+            </tr>
+          </table>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre class="example_content"><code>tree_structure = SepTree(...)
+cov_matrix = np.array([[1, 0.5, 0], [0.5, 1, 0], [0, 0, 1]])
+n_observations = 1000
+p_value_threshold = 0.05
+result = learn_skeleton_norm(tree_structure, cov_matrix, n_observations, p_value_threshold)</code></pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content"></p>
+        </section>
+
+        <section id="gaussian_skeleton_mkb">
+          <h1 class="functionName">gaussian_skeleton_mkb</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Performs skeleton learning by iteratively removing edges based on
+            conditional independence tests for Gaussian data.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">gaussian_skeleton_mkb(cov, n, p_value)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>cov</td>
+              <td>The covariance matrix of the variables.</td>
+            </tr>
+            <tr>
+              <td>n</td>
+              <td>
+                An integer specifying the number of sample cases (number of rows
+                in the data).
+              </td>
+            </tr>
+            <tr>
+              <td>p_value</td>
+              <td>A threshold p-value for conditional independence tests.</td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function performs skeleton learning by iteratively removing
+            edges based on conditional independence tests. It starts with a
+            given covariance matrix of the variables and performs Phase 1 of the
+            MKB (Markov blanket) algorithm to learn the Markov blankets for each
+            variable. It then removes edges between variables that are not in
+            each other's Markov blankets. Finally, it applies the PC algorithm
+            to further remove edges based on conditional independence tests
+            using the given p-value threshold. The resulting graph represents
+            the learned skeleton of the graphical model.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>amat</td>
+              <td>The adjacency matrix of the learned skeleton.</td>
+            </tr>
+            <tr>
+              <td>sep_pairs</td>
+              <td>
+                A list of separation pairs indicating the separation sets
+                between variables. Each separation pair contains the vertices
+                and separation set for d-separation.
+              </td>
+            </tr>
+          </table>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>cov_matrix = np.array([[1, 0.5, 0], [0.5, 1, 0], [0, 0, 1]])
+n_observations = 1000
+p_value_threshold = 0.05
+result = gaussian_skeleton_mkb(cov_matrix, n_observations, p_value_threshold)</code></pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Mohammad Ali Javidian, Marco Valtorta, and Pooyan Jamshidi.
+            "Learning LWF Chain Graphs: A Markov Blanket Discovery Approach"
+            Proceedings of the Thirty Sixth Conference on Uncertainty in
+            Artificial Intelligence (UAI-2020), pages: 1069-1078, 2020.
+            <br /><br />Margaritis, D., and Thrun, S. 1999. Bayesian network
+            induction via local neighborhoods. In Proceedings of the NIPS’99,
+            505–511.
+          </p>
+        </section>
+
+        <section id="get_pattern_matrix">
+          <h1 class="functionName">get_pattern_matrix</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Generates the pattern matrix from the adjacency matrix of a directed
+            graph.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">get_pattern_matrix(adjacency_matrix)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>adjacency_matrix</td>
+              <td>
+                A NumPy array representing the adjacency matrix of the directed
+                graph.
+              </td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function generates the pattern matrix by finding all the edges
+            that are part of at least one minimal complex in the directed graph.
+            The function then converts the input adjacency matrix into the
+            adjacency matrix for the pattern by making all the remaining
+            directional edges undirectional.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <p class="value_content">
+            Returns the pattern matrix as a NumPy array.
+          </p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre
+            class="example_content"
+          ><code>adjacency_matrix = np.array([[0, 1, 1], [0, 0, 1], [0, 0, 0]])
+pattern_matrix = get_pattern_matrix(adjacency_matrix)</code></pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Studeny, M. (1997). A recovery algorithm for chain graphs. Int. J.
+            Approx. Reasoning, 17, 265-293.
           </p>
         </section>
       </section>
