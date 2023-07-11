@@ -148,6 +148,11 @@
           <li><a href="#learn_skeleton_norm">learn_skeleton_norm</a></li>
           <li><a href="#gaussian_skeleton_mkb">gaussian_skeleton_mkb</a></li>
           <li><a href="#get_pattern_matrix">get_pattern_matrix</a></li>
+          <li><a href="#learn_complex_norm">learn_complex_norm</a></li>
+          <li><a href="#as_freq_tb">as_freq_tb</a></li>
+          <li><a href="#freq_tb">freq_tb</a></li>
+          <li><a href="#compress_freq_tb">compress_freq_tb</a></li>
+          <li><a href="#multinom_ci_test">multinom_ci_test</a></li>
           <!-- Add more function links here -->
         </ul>
       </nav>
@@ -1145,6 +1150,284 @@ pattern_matrix = get_pattern_matrix(adjacency_matrix)</code></pre>
           <p class="references_content">
             Studeny, M. (1997). A recovery algorithm for chain graphs. Int. J.
             Approx. Reasoning, 17, 265-293.
+          </p>
+        </section>
+
+        <section id="learn_complex_norm">
+          <h1 class="functionName">learn_complex_norm</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Learns a complex using a skeleton and covariance matrix.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">learn_complex_norm(skel, cov, n, p_value)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>skel</td>
+              <td>Skeleton</td>
+            </tr>
+            <tr>
+              <td>cov</td>
+              <td>Covariance matrix.</td>
+            </tr>
+            <tr>
+              <td>n</td>
+              <td>Size of the data sample.</td>
+            </tr>
+            <tr>
+              <td>p_value</td>
+              <td>Threshold p-value for significance.</td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function learns a complex based on the skeleton and covariance
+            matrix. It returns a pattern.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <p class="value_content">Returns the pattern matrix.</p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre class="example_content">
+<code>
+skel = {
+  "amat": wmat,
+  "sep.pairs": sep_pairs
+}
+cov = np.array(...)
+n = 100
+p_value = 0.05
+pattern_matrix = learn_complex_norm(skel, cov, n, p_value)
+</code>
+  </pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content"></p>
+        </section>
+
+        <section id="as_freq_tb">
+          <h1 class="functionName">as_freq_tb</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Convert a discrete data matrix into a frequency table.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">as_freq_tb(mat)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>mat</td>
+              <td>Input matrix.</td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function converts the input matrix into a frequency table
+            object.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <p class="value_content">Returns the frequency table object.</p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre class="example_content">
+<code>
+mat = np.array([[1, 2, 1], [3, 1, 2], [2, 3, 2]])
+freq_table = as_freq_tb(mat)
+</code>
+  </pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content"></p>
+        </section>
+
+        <section id="freq_tb">
+          <h1 class="className">freq_tb</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">Stores a frequency table object.</p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">freq_tb(table, levels, colnames=None)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>table</td>
+              <td>Frequency table matrix.</td>
+            </tr>
+            <tr>
+              <td>levels</td>
+              <td>
+                List of levels (unique values) for each column in the frequency
+                table.
+              </td>
+            </tr>
+            <tr>
+              <td>colnames</td>
+              <td>List of column names.</td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The `freq_tb` class is used to store a frequency table object. It
+            contains the frequency table matrix, the list of levels (unique
+            values) for each column in the table, and optionally the column
+            names.
+          </p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre class="example_content">
+<code>
+table = np.array([[1, 2, 1], [3, 1, 2], [2, 3, 2]])
+levels = [3, 3, 2]
+colnames = [0, 1, 2]
+frequency_table = freq_tb(table, levels, colnames)
+</code>
+  </pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content"></p>
+        </section>
+
+        <section id="compress_freq_tb">
+          <h1 class="functionName">compress_freq_tb</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Compresses a frequency table by removing specified columns.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">compress_freq_tb(tb, subset=None)</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>tb</td>
+              <td>Frequency table object to be compressed.</td>
+            </tr>
+            <tr>
+              <td>subset</td>
+              <td>
+                A list of indices indicating the subset of variables to be
+                compressed on. The default is the whole variable set.
+              </td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            Compresses a frequency table to a subset of the variables.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <p class="value_content">
+            Returns the compressed frequency table object.
+          </p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre class="example_content">
+<code>
+table = freq_tb(...)
+subset = [0, 1, 2]
+compressed_table = compress_freq_tb(table, subset)
+</code>
+  </pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content"></p>
+        </section>
+
+        <section id="multinom_ci_test">
+          <h1 class="functionName">multinom_ci_test</h1>
+
+          <p class="desc_header"><strong>Description:</strong></p>
+          <p class="desc_content">
+            Performs a conditional independence test for variables u and v with
+            conditioning set cond.
+          </p>
+
+          <p class="usage_header"><strong>Usage:</strong></p>
+          <p class="usage_content">multinom_ci_test(tb, u, v, cond=[])</p>
+
+          <p class="args_header"><strong>Arguments:</strong></p>
+          <table class="arguments-table">
+            <tr>
+              <td>tb</td>
+              <td>Frequency table object.</td>
+            </tr>
+            <tr>
+              <td>u</td>
+              <td>First variable index.</td>
+            </tr>
+            <tr>
+              <td>v</td>
+              <td>Second variable index.</td>
+            </tr>
+            <tr>
+              <td>cond</td>
+              <td>
+                List of variable indices for the conditional set. Defaults to an
+                empty list.
+              </td>
+            </tr>
+          </table>
+
+          <p class="details_header"><strong>Details:</strong></p>
+          <p class="details_content">
+            The function performs a conditional independence test using a
+            frequency table object. It calculates the p-value, deviance, and
+            degrees of freedom for the test and returns them in a dictionary.
+          </p>
+
+          <p class="value_header"><strong>Value:</strong></p>
+          <p class="value_content">
+            Returns a dictionary containing the p-value, deviance, and degrees
+            of freedom.
+          </p>
+
+          <p class="example_header"><strong>Example:</strong></p>
+          <pre class="example_content">
+<code>
+table = freq_tb(...)
+u = 0
+v = 1
+cond = [2, 3]
+result = multinom_ci_test(table, u, v, cond)
+</code>
+  </pre>
+
+          <p class="author_header"><strong>Author(s):</strong></p>
+          <p class="author_content">Mohammad Ali Javidian and Shantanu Deore</p>
+
+          <p class="references_header"><strong>References:</strong></p>
+          <p class="references_content">
+            Agresti, A. (2002). Categorical Data Analysis. 2nd Ed. John Wiley
+            and Sons. Hoboken, NJ.
           </p>
         </section>
       </section>
